@@ -1,3 +1,4 @@
+import 'package:basic_sqflite/catPro_screen.dart';
 import 'package:basic_sqflite/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Qsflite Demo",
       theme: ThemeData(primarySwatch:Colors.blue),
-      home:const HomeScreen(),
+      home:const CatProScreen(),
     );
   }
 }
