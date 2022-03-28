@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'dart:io' as io;
 
 class CatTimeHelper {
+//  ************************** Create table **************************
   static Database? _db;
   Future<Database?> get db async {
     if (_db != null) {
@@ -27,11 +28,19 @@ class CatTimeHelper {
     );
   }
 
+//  ************************** Create table **************************
+
+//  ************************** Insert **************************
+
   Future<CatTimeModel> insert(CatTimeModel catTimeModel) async {
     var dbClient = await db;
     await dbClient!.insert('cattime', catTimeModel.toMap());
     return catTimeModel;
   }
+
+//  ************************** Insert **************************
+
+//  ************************** Query **************************
 
   Future<List<CatTimeModel>> getAllCatTimeList() async {
     var dbClient = await db;
@@ -53,12 +62,9 @@ class CatTimeHelper {
     return queryResult.map((e) => CatTimeModel.fromMap(e)).toList();
   }
 
-  Future deleteTableContent() async {
-    var dbClient = await db;
-    return await dbClient!.delete(
-      'cattime',
-    );
-  }
+//  ************************** Query **************************
+
+//  ************************** Update **************************
 
   Future<int> updateQuantity(CatTimeModel catTimeModel) async {
     var dbClient = await db;
@@ -67,6 +73,17 @@ class CatTimeHelper {
       catTimeModel.toMap(),
       where: 'id = ?',
       whereArgs: [catTimeModel.id],
+    );
+  }
+
+//  ************************** Update **************************
+
+//  ************************** Delete **************************
+
+  Future deleteTableContent() async {
+    var dbClient = await db;
+    return await dbClient!.delete(
+      'cattime',
     );
   }
 
@@ -88,6 +105,7 @@ class CatTimeHelper {
     );
   }
 
+//  ************************** Delete **************************
   Future close() async {
     var dbClient = await db;
     dbClient!.close();

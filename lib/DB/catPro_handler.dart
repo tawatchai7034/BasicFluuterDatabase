@@ -5,6 +5,8 @@ import 'package:path/path.dart';
 import 'dart:io' as io;
 
 class CatProHelper {
+//  ************************** Create table **************************
+
   static Database? _db;
   Future<Database?> get db async {
     if (_db != null) {
@@ -27,11 +29,19 @@ class CatProHelper {
     );
   }
 
+//  ************************** Create table **************************
+
+//  ************************** Insert **************************
+
   Future<CatProModel> insert(CatProModel catProModel) async {
     var dbClient = await db;
     await dbClient!.insert('catpro', catProModel.toMap());
     return catProModel;
   }
+
+//  ************************** Insert **************************
+
+//  ************************** Query **************************
 
   Future<List<CatProModel>> getCatProList() async {
     var dbClient = await db;
@@ -52,12 +62,9 @@ class CatProHelper {
     return CatProModel.fromMap(queryResult.first);
   }
 
-  Future deleteTableContent() async {
-    var dbClient = await db;
-    return await dbClient!.delete(
-      'catpro',
-    );
-  }
+//  ************************** Query **************************
+
+//  ************************** Update **************************
 
   Future<int> updateQuantity(CatProModel catProModel) async {
     var dbClient = await db;
@@ -69,6 +76,17 @@ class CatProHelper {
     );
   }
 
+//  ************************** Update **************************
+
+//  ************************** Delete **************************
+
+  Future deleteTableContent() async {
+    var dbClient = await db;
+    return await dbClient!.delete(
+      'catpro',
+    );
+  }
+
   Future<int> deleteCatPro(int id) async {
     var dbClient = await db;
     return await dbClient!.delete(
@@ -77,6 +95,8 @@ class CatProHelper {
       whereArgs: [id],
     );
   }
+
+//  ************************** Delete **************************
 
   Future close() async {
     var dbClient = await db;

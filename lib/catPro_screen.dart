@@ -1,4 +1,5 @@
 import 'package:basic_sqflite/DB/catPro_handler.dart';
+import 'package:basic_sqflite/DB/catTime_handler.dart';
 import 'package:basic_sqflite/Model/catPro.dart';
 import 'package:basic_sqflite/catTime_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class CatProScreen extends StatefulWidget {
 
 class _CatProScreenState extends State<CatProScreen> {
   CatProHelper? dbHelper;
+  CatTimeHelper? dbCatTime;
   late Future<List<CatProModel>> notesList;
 
   @override
@@ -19,6 +21,7 @@ class _CatProScreenState extends State<CatProScreen> {
     // TODO: implement initState
     super.initState();
     dbHelper = new CatProHelper();
+    dbCatTime = new CatTimeHelper();
     loadData();
     // NotesModel(title: "User00",age: 22,description: "Default user",email: "User@exemple.com");
   }
@@ -62,8 +65,12 @@ class _CatProScreenState extends State<CatProScreen> {
                                   child: Icon(Icons.delete_forever)),
                               onDismissed: (DismissDirection direction) {
                                 setState(() {
+                                  // delete row in catpro table with snapshot.data![index].id!
                                   dbHelper!
                                       .deleteCatPro(snapshot.data![index].id!);
+                                    
+                                  // delete row in cattime table with snapshot.data![index].id!
+                                  dbCatTime!.deleteCatTimeWithIdPro(snapshot.data![index].id!);
                                   notesList = dbHelper!.getCatProList();
                                   snapshot.data!.remove(snapshot.data![index]);
                                 });
