@@ -48,9 +48,23 @@ class CatImageHelper {
 
 //  ************************** Query **************************
 
-  Future<List<ImageModel>> getPhotos() async {
+  Future<List<ImageModel>> getAllPhotos() async {
     var dbClient = await db;
     List<Map<String, Object?>> maps = await dbClient.query(TABLE, columns: ImageFields.values);
+    List<ImageModel> employees = [];
+
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        
+        employees.add(ImageModel.fromMap(maps[i]));
+      }
+    }
+    return employees;
+  }
+
+    Future<List<ImageModel>> getCatTimePhotos(int idTime) async {
+    var dbClient = await db;
+    List<Map<String, Object?>> maps = await dbClient.query(TABLE, columns: ImageFields.values,where: 'idTime = ?',whereArgs : [idTime]);
     List<ImageModel> employees = [];
 
     if (maps.length > 0) {

@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import '../Camera/preview_screen.dart';
 
 class CapturesScreen extends StatefulWidget {
+  final int idPro;
+  final int idTime;
   final List<File> imageFileList;
   const CapturesScreen({
     Key? key,
+    required this.idPro,
+    required this.idTime,
     required this.imageFileList,
   }) : super(key: key);
 
@@ -16,7 +20,7 @@ class CapturesScreen extends StatefulWidget {
 }
 
 class _CapturesScreenState extends State<CapturesScreen> {
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -53,6 +57,8 @@ class _CapturesScreenState extends State<CapturesScreen> {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => PreviewScreen(
+                              idPro: widget.idPro,
+                              idTime: widget.idTime,
                               fileList: widget.imageFileList,
                               imageFile: imageFile,
                             ),

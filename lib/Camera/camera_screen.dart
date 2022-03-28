@@ -4,14 +4,22 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../Camera/preview_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 
+import '../Camera/preview_screen.dart';
 import '../main.dart';
 
 class CameraScreen extends StatefulWidget {
+  final int idPro;
+  final int idTime;
+
+  const CameraScreen({
+    Key? key,
+    required this.idPro,
+    required this.idTime,
+  }) : super(key: key);
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
@@ -554,7 +562,7 @@ class _CameraScreenState extends State<CameraScreen>
                                                 }
                                               }
                                             : () async {
-                                              // ****** picture ******
+                                                // ****** picture ******
                                                 XFile? rawImage =
                                                     await takePicture();
                                                 File imageFile =
@@ -616,6 +624,8 @@ class _CameraScreenState extends State<CameraScreen>
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         PreviewScreen(
+                                                      idPro: widget.idPro,
+                                                      idTime: widget.idTime,
                                                       imageFile: _imageFile!,
                                                       fileList: allFileList,
                                                     ),

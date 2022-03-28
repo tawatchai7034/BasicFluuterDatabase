@@ -36,7 +36,7 @@ class _CatImageScreenState extends State<CatImageScreen> {
   }
 
   refreshImages() {
-    ImageHelper!.getPhotos().then((imgs) {
+    ImageHelper!.getCatTimePhotos(widget.idTime).then((imgs) {
       setState(() {
         images.clear();
         images.addAll(imgs);
@@ -83,11 +83,25 @@ class _CatImageScreenState extends State<CatImageScreen> {
         backgroundColor: Colors.green,
         title: Text("Flutter Save Image"),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              pickImageFromGallery();
-            },
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.photo),
+                onPressed: () {
+                  pickImageFromGallery();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.camera_alt),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CameraScreen(
+                            idPro: widget.idPro,
+                            idTime: widget.idTime,
+                          )));
+                },
+              ),
+            ],
           ),
         ],
       ),
