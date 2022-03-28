@@ -37,6 +37,10 @@ dependencies:
   collection: ^1.15.0
   path: ^1.8.0
   path_provider: ^2.0.9
+  camera: any
+  permission_handler: any
+  video_player: any
+  image_picker: any
 
 dev_dependencies:
   flutter_test:

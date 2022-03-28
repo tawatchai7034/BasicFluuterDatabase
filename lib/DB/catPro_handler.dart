@@ -66,7 +66,7 @@ class CatProHelper {
 
 //  ************************** Update **************************
 
-  Future<int> updateQuantity(CatProModel catProModel) async {
+  Future<int> updateCatPro(CatProModel catProModel) async {
     var dbClient = await db;
     return await dbClient!.update(
       'catpro',

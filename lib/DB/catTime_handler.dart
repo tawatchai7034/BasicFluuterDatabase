@@ -46,7 +46,7 @@ class CatTimeHelper {
     var dbClient = await db;
 
     final List<Map<String, Object?>> queryResult =
-        await dbClient!.query('cattime');
+        await dbClient!.query('cattime',orderBy: "date DESC");
     return queryResult.map((e) => CatTimeModel.fromMap(e)).toList();
   }
 
@@ -58,6 +58,7 @@ class CatTimeHelper {
       columns: CatTimeFields.values,
       where: 'idPro = ?',
       whereArgs: [idPro],
+      orderBy: "date DESC"
     );
     return queryResult.map((e) => CatTimeModel.fromMap(e)).toList();
   }
@@ -66,7 +67,7 @@ class CatTimeHelper {
 
 //  ************************** Update **************************
 
-  Future<int> updateQuantity(CatTimeModel catTimeModel) async {
+  Future<int> updateCatTime(CatTimeModel catTimeModel) async {
     var dbClient = await db;
     return await dbClient!.update(
       'cattime',

@@ -85,7 +85,7 @@ class _CatProScreenState extends State<CatProScreen> {
                                       "Gender: ${snapshot.data![index].gender.toString()}\nSpecies: ${snapshot.data![index].species.toString()}"),
                                   trailing: IconButton(
                                       onPressed: () {
-                                        dbHelper!.updateQuantity(CatProModel(
+                                        dbHelper!.updateCatPro(CatProModel(
                                           id: snapshot.data![index].id!,
                                           name: "cattle01",
                                           gender: "female",
