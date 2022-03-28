@@ -1,3 +1,37 @@
+class CatTimeFields {
+  static final List<String> values = [
+    /// Add all fields
+    id,
+    idPro,
+    bodyLenght,
+    heartGirth,
+    hearLenghtSide,
+    hearLenghtRear,
+    hearLenghtTop,
+    pixelReference,
+    distanceReference,
+    imageSide,
+    imageRear,
+    imageTop,
+    date,
+    note,
+  ];
+  static final String id = 'id';
+  static final String idPro = 'idPro';
+  static final String bodyLenght = 'bodyLenght';
+  static final String heartGirth = 'heartGirth';
+  static final String hearLenghtSide = 'hearLenghtSide';
+  static final String hearLenghtRear = 'hearLenghtRear';
+  static final String hearLenghtTop = 'hearLenghtTop';
+  static final String pixelReference = 'pixelReference';
+  static final String distanceReference = 'distanceReference';
+  static final String imageSide = 'imageSide';
+  static final String imageRear = 'imageRear';
+  static final String imageTop = 'imageTop';
+  static final String date = 'date';
+  static final String note = 'note';
+}
+
 class CatTimeModel {
   final int? id;
   final int idPro;

@@ -44,7 +44,12 @@ class CatTimeHelper {
   Future<List<CatTimeModel>> getCatTimeListWithCatProID(int idPro) async {
     var dbClient = await db;
 
-    final List<Map<String, Object?>> queryResult = await dbClient!.rawQuery("SELETE * FROM cattime WHERE idPro = ?",[idPro]);
+    final List<Map<String, Object?>> queryResult = await dbClient!.query(
+      'cattime',
+      columns: CatTimeFields.values,
+      where: 'idPro = ?',
+      whereArgs: [idPro],
+    );
     return queryResult.map((e) => CatTimeModel.fromMap(e)).toList();
   }
 

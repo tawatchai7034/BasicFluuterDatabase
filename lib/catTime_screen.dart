@@ -24,7 +24,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
   }
 
   loadData() async {
-    notesList = dbHelper!.getAllCatTimeList();
+    notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
   }
 
   @override
@@ -65,7 +65,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                                   note: "New update"));
 
                               setState(() {
-                                notesList = dbHelper!.getAllCatTimeList();
+                                notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
                               });
                             },
                             child: Dismissible(
@@ -80,7 +80,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                                 setState(() {
                                   dbHelper!
                                       .deleteCatTime(snapshot.data![index].id!);
-                                  notesList = dbHelper!.getAllCatTimeList();
+                                  notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
                                   snapshot.data!.remove(snapshot.data![index]);
                                 });
                               },
@@ -126,9 +126,9 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                 .then((value) {
               print("Add data completed");
               setState(() {
-                notesList = dbHelper!.getAllCatTimeList();
+                notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
               });
-              notesList = dbHelper!.getAllCatTimeList();
+              notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
             }).onError((error, stackTrace) {
               print("Error: " + error.toString());
             });
