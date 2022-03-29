@@ -1,7 +1,8 @@
 import 'package:basic_sqflite/DB/catPro_handler.dart';
 import 'package:basic_sqflite/DB/catTime_handler.dart';
 import 'package:basic_sqflite/Model/catPro.dart';
-import 'package:basic_sqflite/catTime_screen.dart';
+import 'package:basic_sqflite/Screen/catPro_Create.dart';
+import 'package:basic_sqflite/Screen/catTime_screen.dart';
 import 'package:flutter/material.dart';
 
 class CatProScreen extends StatefulWidget {
@@ -111,21 +112,22 @@ class _CatProScreenState extends State<CatProScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            dbHelper!
-                .insert(CatProModel(
-              name: "cattle02",
-              gender: "male",
-              species: "angus",
-            ))
-                .then((value) {
-              print("Add data completed");
-              setState(() {
-                notesList = dbHelper!.getCatProList();
-              });
-              notesList = dbHelper!.getCatProList();
-            }).onError((error, stackTrace) {
-              print("Error: " + error.toString());
-            });
+             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CatProFormCreate()));
+            // dbHelper!
+            //     .insert(CatProModel(
+            //   name: "cattle02",
+            //   gender: "male",
+            //   species: "angus",
+            // ))
+            //     .then((value) {
+            //   print("Add data completed");
+            //   setState(() {
+            //     notesList = dbHelper!.getCatProList();
+            //   });
+            //   notesList = dbHelper!.getCatProList();
+            // }).onError((error, stackTrace) {
+            //   print("Error: " + error.toString());
+            // });
           },
           child: const Icon(Icons.add)),
     );

@@ -41,6 +41,7 @@ dependencies:
   permission_handler: any
   video_player: any
   image_picker: any
+  intl: any
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
-import 'package:basic_sqflite/catPro_screen.dart';
-import 'package:basic_sqflite/home_screen.dart';
+import 'package:basic_sqflite/Screen/catPro_screen.dart';
+import 'package:basic_sqflite/Screen/home_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../Camera/camera_screen.dart';

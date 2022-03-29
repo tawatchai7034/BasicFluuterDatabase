@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:basic_sqflite/DB/catImage_handler.dart';
 import 'package:basic_sqflite/Model/image.dart';
 import 'package:basic_sqflite/Model/utility.dart';
-import 'package:basic_sqflite/catTime_screen.dart';
+import 'package:basic_sqflite/Screen/catTime_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../Camera/captures_screen.dart';

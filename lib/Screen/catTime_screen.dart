@@ -1,7 +1,8 @@
 import 'package:basic_sqflite/DB/catTime_handler.dart';
 import 'package:basic_sqflite/Model/catTime.dart';
-import 'package:basic_sqflite/catImage_screen.dart';
+import 'package:basic_sqflite/Screen/catImage_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CatTimeScreen extends StatefulWidget {
   final int catProId;
@@ -14,6 +15,7 @@ class CatTimeScreen extends StatefulWidget {
 class _CatTimeScreenState extends State<CatTimeScreen> {
   CatTimeHelper? dbHelper;
   late Future<List<CatTimeModel>> notesList;
+  final formatDay = DateFormat('dd/MM/yyyy hh:mm a');
 
   @override
   void initState() {
@@ -76,8 +78,8 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                               child: Card(
                                 child: ListTile(
                                   contentPadding: EdgeInsets.all(0),
-                                  title: Text(
-                                      snapshot.data![index].date.toString()),
+                                  title: Text(formatDay.format(DateTime.parse(
+                                      snapshot.data![index].date))),
                                   subtitle: Text(
                                       snapshot.data![index].note.toString()),
                                   trailing: IconButton(
