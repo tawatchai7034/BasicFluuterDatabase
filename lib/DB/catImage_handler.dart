@@ -99,6 +99,18 @@ class CatImageHelper {
     return result;
   }
 
+     Future<int> deleteWithIDPro(int idPro) async {
+    var dbClient = await db;
+    int result = await dbClient.delete('$TABLE',where: "idPro = ?", whereArgs: [idPro]);
+    return result;
+  }
+     Future<int> deleteWithIDTime(int idTime) async {
+    var dbClient = await db;
+    int result = await dbClient.delete('$TABLE',where: "idTime = ?", whereArgs: [idTime]);
+    return result;
+  }
+
+
 //  ************************** Delete **************************
 
   Future close() async {

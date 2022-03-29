@@ -1,12 +1,15 @@
+import 'package:basic_sqflite/DB/catImage_handler.dart';
+import 'package:basic_sqflite/DB/catPro_handler.dart';
 import 'package:basic_sqflite/DB/catTime_handler.dart';
+import 'package:basic_sqflite/Model/catPro.dart';
 import 'package:basic_sqflite/Model/catTime.dart';
 import 'package:basic_sqflite/Screen/catImage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CatTimeScreen extends StatefulWidget {
-  final int catProId;
-  const CatTimeScreen({Key? key, required this.catProId}) : super(key: key);
+  final CatProModel catPro;
+  const CatTimeScreen({Key? key, required this.catPro}) : super(key: key);
 
   @override
   _CatTimeScreenState createState() => _CatTimeScreenState();
@@ -14,6 +17,8 @@ class CatTimeScreen extends StatefulWidget {
 
 class _CatTimeScreenState extends State<CatTimeScreen> {
   CatTimeHelper? dbHelper;
+  CatProHelper? catProHelper;
+  CatImageHelper? dbImage;
   late Future<List<CatTimeModel>> notesList;
   final formatDay = DateFormat('dd/MM/yyyy hh:mm a');
 
@@ -22,19 +27,21 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
     // TODO: implement initState
     super.initState();
     dbHelper = new CatTimeHelper();
+    catProHelper = new CatProHelper();
+    dbImage = new CatImageHelper();
     loadData();
     // NotesModel(title: "User00",age: 22,description: "Default user",email: "User@exemple.com");
   }
 
   loadData() async {
-    notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
+    notesList = dbHelper!.getCatTimeListWithCatProID(widget.catPro.id!);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cattle SQL"),
+        title: Text("${widget.catPro.name}"),
         centerTitle: true,
       ),
       body: Column(
@@ -53,7 +60,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CatImageScreen(
-                                      idPro: widget.catProId,
+                                      idPro: widget.catPro.id!,
                                       idTime: snapshot.data![index].id!)));
                             },
                             child: Dismissible(
@@ -66,11 +73,17 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                                   child: Icon(Icons.delete_forever)),
                               onDismissed: (DismissDirection direction) {
                                 setState(() {
+                                  // delete row in cattime table with snapshot.data![index].id!
                                   dbHelper!
                                       .deleteCatTime(snapshot.data![index].id!);
+
+                                  // delete cattle Image in images table
+                                  dbImage!.deleteWithIDTime(
+                                      snapshot.data![index].id!);
+
                                   notesList = dbHelper!
                                       .getCatTimeListWithCatProID(
-                                          widget.catProId);
+                                          widget.catPro.id!);
                                   snapshot.data!.remove(snapshot.data![index]);
                                 });
                               },
@@ -86,7 +99,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                                       onPressed: () {
                                         dbHelper!.updateCatTime(CatTimeModel(
                                             id: snapshot.data![index].id!,
-                                            idPro: widget.catProId,
+                                            idPro: widget.catPro.id!,
                                             bodyLenght: 10,
                                             heartGirth: 10,
                                             hearLenghtSide: 10,
@@ -104,7 +117,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
                                         setState(() {
                                           notesList = dbHelper!
                                               .getCatTimeListWithCatProID(
-                                                  widget.catProId);
+                                                  widget.catPro.id!);
                                         });
                                       },
                                       icon: Icon(Icons.edit)),
@@ -124,7 +137,7 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
           onPressed: () {
             dbHelper!
                 .insert(CatTimeModel(
-                    idPro: widget.catProId,
+                    idPro: widget.catPro.id!,
                     bodyLenght: 0,
                     heartGirth: 0,
                     hearLenghtSide: 0,
@@ -141,9 +154,10 @@ class _CatTimeScreenState extends State<CatTimeScreen> {
               print("Add data completed");
               setState(() {
                 notesList =
-                    dbHelper!.getCatTimeListWithCatProID(widget.catProId);
+                    dbHelper!.getCatTimeListWithCatProID(widget.catPro.id!);
               });
-              notesList = dbHelper!.getCatTimeListWithCatProID(widget.catProId);
+              notesList =
+                  dbHelper!.getCatTimeListWithCatProID(widget.catPro.id!);
             }).onError((error, stackTrace) {
               print("Error: " + error.toString());
             });

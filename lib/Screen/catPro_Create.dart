@@ -53,12 +53,31 @@ class CatProFormCreateState extends State<CatProFormCreate> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Name",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 16,
+              ),
               TextFormField(
+                decoration: InputDecoration(
+                  focusColor: Colors.white,
+
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.blue, width: 1.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  fillColor: Colors.grey,
+
+                  // labelText: "${cattleName}",
+                ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -169,28 +188,28 @@ class CatProFormCreateState extends State<CatProFormCreate> {
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-
                               // ScaffoldMessenger.of(context).showSnackBar(
                               //   const SnackBar(
                               //       content: Text('Processing Data')),
                               // );
-                              print(
-                                  "Name: $cattleName \tGender: $_selectedGender\tSpecies: $species");
+                              // print(
+                              //     "Name: $cattleName \tGender: $_selectedGender\tSpecies: $species");
 
-                            CatProModel cattlePro = CatProModel(name: cattleName,gender: _selectedGender,species: species);
+                              CatProModel cattlePro = CatProModel(
+                                  name: cattleName,
+                                  gender: _selectedGender,
+                                  species: species);
 
-                            await catProHelper!.insert(cattlePro);
-                            loadData();
+                              await catProHelper!.insert(cattlePro);
+                              loadData();
 
-                            // Navigator.pop(context);
+                              // Navigator.pop(context);
 
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => CatProScreen()),
-                                (Route<dynamic> route) => false);
-
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => CatProScreen()),
+                                  (Route<dynamic> route) => false);
                             }
-                            
                           },
                           child: const Text('Submit'),
                         ),

@@ -51,7 +51,7 @@ class CatProHelper {
     return queryResult.map((e) => CatProModel.fromMap(e)).toList();
   }
 
-  Future<CatProModel> getCatPro(int id) async {
+  Future getCatPro(int id) async {
     var dbClient = await db;
 
     final queryResult = await dbClient!.query('catpro',
@@ -59,7 +59,7 @@ class CatProHelper {
         where: "id = ?",
         whereArgs: [id]);
 
-    return CatProModel.fromMap(queryResult.first);
+    return queryResult;
   }
 
 //  ************************** Query **************************

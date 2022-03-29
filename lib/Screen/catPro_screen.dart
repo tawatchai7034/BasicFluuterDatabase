@@ -1,7 +1,9 @@
+import 'package:basic_sqflite/DB/catImage_handler.dart';
 import 'package:basic_sqflite/DB/catPro_handler.dart';
 import 'package:basic_sqflite/DB/catTime_handler.dart';
 import 'package:basic_sqflite/Model/catPro.dart';
 import 'package:basic_sqflite/Screen/catPro_Create.dart';
+import 'package:basic_sqflite/Screen/catPro_Edit.dart';
 import 'package:basic_sqflite/Screen/catTime_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,7 @@ class CatProScreen extends StatefulWidget {
 class _CatProScreenState extends State<CatProScreen> {
   CatProHelper? dbHelper;
   CatTimeHelper? dbCatTime;
+  CatImageHelper? dbImage;
   late Future<List<CatProModel>> notesList;
 
   @override
@@ -23,6 +26,7 @@ class _CatProScreenState extends State<CatProScreen> {
     super.initState();
     dbHelper = new CatProHelper();
     dbCatTime = new CatTimeHelper();
+    dbImage = new CatImageHelper();
     loadData();
     // NotesModel(title: "User00",age: 22,description: "Default user",email: "User@exemple.com");
   }
@@ -54,7 +58,7 @@ class _CatProScreenState extends State<CatProScreen> {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CatTimeScreen(
-                                      catProId: snapshot.data![index].id!)));
+                                      catPro: snapshot.data![index])));
                             },
                             child: Dismissible(
                               direction: DismissDirection.endToStart,
@@ -69,9 +73,14 @@ class _CatProScreenState extends State<CatProScreen> {
                                   // delete row in catpro table with snapshot.data![index].id!
                                   dbHelper!
                                       .deleteCatPro(snapshot.data![index].id!);
-                                    
+
                                   // delete row in cattime table with snapshot.data![index].id!
-                                  dbCatTime!.deleteCatTimeWithIdPro(snapshot.data![index].id!);
+                                  dbCatTime!.deleteCatTimeWithIdPro(
+                                      snapshot.data![index].id!);
+
+                                  // delete cattle Image in images table
+                                  dbImage!.deleteWithIDPro(snapshot.data![index].id!);
+                                  
                                   notesList = dbHelper!.getCatProList();
                                   snapshot.data!.remove(snapshot.data![index]);
                                 });
@@ -86,16 +95,23 @@ class _CatProScreenState extends State<CatProScreen> {
                                       "Gender: ${snapshot.data![index].gender.toString()}\nSpecies: ${snapshot.data![index].species.toString()}"),
                                   trailing: IconButton(
                                       onPressed: () {
-                                        dbHelper!.updateCatPro(CatProModel(
-                                          id: snapshot.data![index].id!,
-                                          name: "cattle01",
-                                          gender: "female",
-                                          species: "barhman",
-                                        ));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CatProFormEdit(
+                                                        catPro: snapshot
+                                                            .data![index])));
 
-                                        setState(() {
-                                          notesList = dbHelper!.getCatProList();
-                                        });
+                                        // dbHelper!.updateCatPro(CatProModel(
+                                        //   id: snapshot.data![index].id!,
+                                        //   name: "cattle01",
+                                        //   gender: "female",
+                                        //   species: "barhman",
+                                        // ));
+
+                                        // setState(() {
+                                        //   notesList = dbHelper!.getCatProList();
+                                        // });
                                       },
                                       icon: Icon(Icons.edit)),
                                 ),
@@ -104,7 +120,7 @@ class _CatProScreenState extends State<CatProScreen> {
                           );
                         });
                   } else {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   }
                 }),
           ),
@@ -112,7 +128,8 @@ class _CatProScreenState extends State<CatProScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CatProFormCreate()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => CatProFormCreate()));
             // dbHelper!
             //     .insert(CatProModel(
             //   name: "cattle02",

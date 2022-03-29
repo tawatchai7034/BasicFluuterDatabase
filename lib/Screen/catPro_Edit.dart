@@ -2,9 +2,8 @@
 
 import 'package:basic_sqflite/DB/catPro_handler.dart';
 import 'package:basic_sqflite/Model/catPro.dart';
+import 'package:basic_sqflite/Screen/catPro_screen.dart';
 import 'package:flutter/material.dart';
-
-
 
 class CatProFormEdit extends StatefulWidget {
   final CatProModel catPro;
@@ -30,13 +29,13 @@ class CatProFormEditState extends State<CatProFormEdit> {
   CatProHelper? catProHelper;
   late Future<List<CatProModel>> notesList;
 
-   @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _selectedGender = widget.catPro.gender;
-   cattleName = widget.catPro.name;
-   species = widget.catPro.species;
+    cattleName = widget.catPro.name;
+    species = widget.catPro.species;
 
     catProHelper = new CatProHelper();
     loadData();
@@ -57,16 +56,36 @@ class CatProFormEditState extends State<CatProFormEdit> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Name",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 16,
+              ),
               TextFormField(
+                decoration: InputDecoration(
+                  focusColor: Colors.white,
+
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.blue, width: 1.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  fillColor: Colors.grey,
+
+                  //create lable
+                  labelText: "${cattleName}",
+                ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter name';
+                    // return 'Please enter name';
                   } else {
                     cattleName = value;
                   }
@@ -85,7 +104,6 @@ class CatProFormEditState extends State<CatProFormEdit> {
                   onChanged: (value) {
                     setState(() {
                       _selectedGender = value!;
-
                     });
                   },
                 ),
@@ -98,7 +116,6 @@ class CatProFormEditState extends State<CatProFormEdit> {
                   onChanged: (value) {
                     setState(() {
                       _selectedGender = value!;
-              
                     });
                   },
                 ),
@@ -172,25 +189,37 @@ class CatProFormEditState extends State<CatProFormEdit> {
                               textStyle: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           onPressed: () async {
-                            // if (_formKey.currentState!.validate()) {
-                            //   // ScaffoldMessenger.of(context).showSnackBar(
-                            //   //   const SnackBar(
-                            //   //       content: Text('Processing Data')),
-                            //   // );
-                            //   // print(
-                            //   //     "Name: $cattleName\tGender: $_selectedGender\tSpecies: $dropdownValue");
-                            final newCatPro = CatProModel(name: cattleName,gender: _selectedGender,species: species);
+                            String name = widget.catPro.name;
+                            if (_formKey.currentState!.validate()) {
+                              //   // ScaffoldMessenger.of(context).showSnackBar(
+                              //   //   const SnackBar(
+                              //   //       content: Text('Processing Data')),
+                              //   // );
+                              name = cattleName;
+                              // print(
+                              //     "Name: $cattleName\tGender: $_selectedGender\tSpecies: $species");
+
+                            }
+
+                            // print(
+                            //     "Name: $name\tGender: $_selectedGender\tSpecies: $species");
+
+                            final newCatPro = CatProModel(
+                                id: widget.catPro.id,
+                                name: name,
+                                gender: _selectedGender,
+                                species: species);
 
                             await catProHelper!.updateCatPro(newCatPro);
 
                             loadData();
 
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
 
-                            // Navigator.of(context).pushAndRemoveUntil(
-                            //     MaterialPageRoute(
-                            //         builder: (context) => CatProScreen()),
-                            //     (Route<dynamic> route) => false);
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => CatProScreen()),
+                                (Route<dynamic> route) => false);
                           },
                           child: const Text('Submit'),
                         ),
